@@ -1,0 +1,54 @@
+<html>
+
+<body>
+
+<div id=part1>
+some header stuff
+<ul>
+<li><button onclick="loader('home')"> Home </button>
+<li><button onclick="loader('contact')"> Contact </button>
+<li><button onclick="loader('leesphp')"> LeesPhp </button>
+<li><button onclick="loader('htmlees')"> htmlees </button>
+<li><button onclick="loader('test')"> test htm read </button>
+<li><button onclick="loader('notdeclaredyet')"> notdeclaredyet (error) </button>
+<li><button onclick="loader('ip')"> get ip </button>
+<li><button onclick="loader('somedata')"> get db data </button>
+<li><div onclick="loader('home')"> sdfsdfd </div> 
+</ul>
+</div>
+
+<div id=part2>
+<h1> Part 1 </h1>
+</div>
+
+<div id=part3>
+<h1> Part 2 </h1>
+some footer stuff
+</div>
+
+<script>
+function loader(whereTo) {
+ let laaiDitHier = document.getElementById('part2');
+ kryDitVanServer(whereTo, laaiDitHier)
+}
+
+function kryDitVanServer(stuffToLoad, placeToPutIt) {
+   const praatmetserver = {task:'laaiData', menuClick:stuffToLoad}
+   const hoeOnsDitWilTerugkry = {
+          method: 'POST'
+         ,headers: {'Accept': 'application/json'
+                   ,'Content-Type': 'application/json;charset=UTF-8'}
+         ,body: JSON.stringify(praatmetserver) }
+   placeToPutIt.innerHTML = '<h4> ................   loading ...................</h4>';
+   fetch('./loader.php', hoeOnsDitWilTerugkry)
+   .then(response => {
+     if (!response.ok) {   
+        alert('some serious error')  
+     }
+     return response.json()
+   })     
+   .then(responseAsJson => {
+     placeToPutIt.innerHTML = responseAsJson.payload
+   })
+}
+</script>
