@@ -1,0 +1,41 @@
+<html>
+
+<style>
+.auto-grid {
+  --auto-grid-min-size: 16rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
+  grid-gap: 1rem;
+}
+.r { background-color: red; min-width:100px}
+.bl { background-color: blue; min-width:100px}
+.g { background-color: green; min-width:100px}
+.w { background-color: white; min-width:100px}
+.br { background-color: brown; min-width:100px}
+.p { background-color: pink; min-width:100px}
+.c1 { background-color: #581B45; min-width:100px}
+.c2 { background-color: #900C3F; min-width:100px}
+.c3 { background-color: #C70039; min-width:100px}
+.c4 { background-color: #FF5733; min-width:100px}
+.c5 { background-color: #FFC30F; min-width:100px}
+.c6 { background-color: #FFEEAD; min-width:100px}
+
+</style>
+
+<body style="background-color: silver">
+<div class="auto-grid" id="bokant">
+ <div class="r"> eerste </div>
+ <div class="bl"> eerste </div>
+ <div class="g"> eerste </div>
+ <div class="w"> eerste </div>
+ <div class="br"> eerste </div>
+ <div class="p"> eerste </div>
+</div>
+
+<script>
+b = document.getElementById('bokant');
+arr = ['p','c1','c2','c3','c4','c5','c6','r','bl','g','br'];
+let r = Math.floor(Math.random() * arr.length);
+console.log( r )
+
+</script>
