@@ -1,0 +1,38 @@
+<p>
+This is a test to create a menu structure that works via php and also without php
+<br><br>
+Currently we use a loader.php to work on the server, and to complete tasks we sent to it via javascript in our index file.
+<pre><code>
+
+.li.  .button.  onclick="loader('home')"  .Home.  ./button. ./li.
+
+</code>
+
+each item will have a PARENTNAMEID - like "TOP", "MENU1", SOCIALFEEDS", - these would be used to delve deeper if needed.
+each item will have a method - this will be what we will do with this item 
+each item will have a name - will be important for display on menu
+each item will have an ID  - we use this for identification of the menu structure. and to issue commands.
+each item could have a description - to tell use what this click will do
+each item should have a attribute same as it;s method. method href will have attribute href, method menu should have attribute menu, etc.
+(if id "faceb" is clicked, we see it's method is href and it href is a url.)
+
+methods : menu - this is a menu item, and there must be stuff below it, linked to it's ID , we can also think about using "part2" as field, to show where it muse be displayed
+        , href
+	, select
+	, pdf
+	, htm
+	, php
+	, text
+	, ip
+	, data
+	
+table structure
+link  , method, name  , idlink   , description   , href                      , select 
+top   , menu  , links , links    , ""            , ""                        , ""
+top   , menu  , menu  , topmenu  , ""            , ""                        , "" 	
+links , href  , class , shwCls   , ""            , https://www,googl.com     , ""
+links , href  , entry , goEnt    , ""            , https://www.entry.com     , ""
+
+*/
+</pre>
+

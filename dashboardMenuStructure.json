@@ -1,0 +1,191 @@
+/*
+each item will have a PARENTNAMEID - like "TOP", "MENU1", SOCIALFEEDS", - these would be used to delve deeper if needed.
+each item will have a method - this will be what we will do with this item 
+each item will have a name - will be important for display on menu
+each item will have an ID  - we use this for identification of the menu structure. and to issue commands.
+each item could have a description - to tell use what this click will do
+each item should have a attribute same as it;s method. method href will have attribute href, method menu should have attribute menu, etc.
+(if id "faceb" is clicked, we see it's method is href and it href is a url.)
+
+methods : menu - this is a menu item, and there must be stuff below it, linked to it's ID , we can also think about using "part2" as field, to show where it muse be displayed
+        , href
+	, select
+	, pdf
+	, htm
+	, php
+	, text
+	, ip
+	, data
+	
+table structure
+link  , method, name  , idlink   , description   , href                      , select 
+top   , menu  , links , links    , ""            , ""                        , ""
+top   , menu  , menu  , topmenu  , ""            , ""                        , "" 	
+links , href  , class , shwCls   , ""            , https://www,googl.com     , ""
+links , href  , entry , goEnt    , ""            , https://www.entry.com     , ""
+
+*/
+const zmlSideMenu = {
+	"top" : [{"method": "menu",			"name": "menu",			"id":"topmenu"		},
+		 {"method": "menu",			"name": "links",		"id":"links"	},
+		 {"method": "menu",			"name": "social feeds",		"id":"socialfeeds"	},
+		 {"method": "menu",			"name": "photos",		"id":"photos"		}
+		  ],
+	"menu": [   {"method": "menu",			"name": "Entry Stats",	"id":"menuadhoc2"},
+	            {"method": "menu",			"name": "Producers",	"id":"menuproducers"},
+		    {"method": "menu",			"name": "features",	"id":"menufeatures"	},
+		    {"method": "menu",			"name": "more features","id":"menumorefeatures"},
+		    {"method": "menu",			"name": "scoring",      "id":"menuscoring"},
+		    {"method": "menu",			"name": "Stickers",     "id":"menustickers"},
+		    {"method": "menu",			"name": "ad hoc 1",	"id":"menuadhoc1"},
+		    {"method": "menu",			"name": "System Info",	"id":"menusysinfo"}
+		],
+	"social feeds": [
+		    {"method": "href",		"name": "facebook",		"id":"faceb"	,"href": "https://www.facebook.com/MichelangeloAwards/"},
+		    {"method": "href",		"name": "twitter",		"id":"twitt"	,"href": "https://twitter.com/MiwaAwards"},
+		    {"method": "href",		"name": "instagram",		"id":"insta"	,"href": "https://www.instagram.com/michelangelo_awards/"}
+		],
+	"photos": [
+		   {"method": "href",		"name": "2013",		"id":"2013"	,"href": "https://photos.app.goo.gl/8FEyAYJKiA7e73VVA"},
+		   {"method": "href",		"name": "2014",		"id":"2014"	,"href": "https://photos.app.goo.gl/iybGC5HNXuXFk3ZZ7"},					
+		   {"method": "href",		"name": "2016",		"id":"2016"	,"href": "https://photos.app.goo.gl/af7A3CMUnqB9z6EQ7"},
+		   {"method": "href",		"name": "2017",		"id":"2017"	,"href": "https://photos.app.goo.gl/pydWajVvPqcTQmCVA"},
+		   {"method": "href",		"name": "2018",		"id":"2018"	,"href": "https://photos.app.goo.gl/vnYaE7xVd1G3L91x5"}
+		],
+	"features": [
+		   {"method": "select",			"name": "Latest Queries",	"id": "showQuery",		
+			    "description": "Show the latest queries on Producers",		
+			    "select": "SELECT log_dte,details,ip FROM wp_log WHERE function = \"GetOneProducer\" and log_dte > \"2020-05-01\"  order by log_dte DESC"
+		   },
+		   {"method": "select",			"name": "Insert Products",	"id": "showInserts",		
+			    "description": "Show who has done inserts past 15 days",		
+			    "select": "SELECT log_dte,details,user FROM wp_log WHERE details like \"insert%\" and log_dte >= NOW() - INTERVAL 15 DAY order by log_dte DESC"
+		   },
+		   {"method": "select",			"name": "BuyWine Hits",	"id": "buyWineHits",
+			    "description": "Show who has queried on website to buy wine",
+			    "select" : "select distinct date_format(log_dte,'%m-%d') log_dte ,details from wp_log where details like '%BuyWineForm%' order by log_dte DESC"
+		   }
+		],
+	"scoring": [
+		   {"method": "select",		"name": "Score deviation",	"id": "showScores",   		"description": "Check for score deviation",	
+		    "select": "SELECT max(s.dateentered) Date,s.shelvewineid ShelfID,w.winename Wine,sum(s.score)/count(*) Score ,format(stddev(s.score),2) Deviation  ,count(*) Cnt,sum(s.score) Sum FROM wp_winescore s, wp_shelvewine r, wp_competitionwine w, wp_wineclass c WHERE r.shelvewineid = s.shelvewineid   and r.competitionwineid = w.competitionwineid and w.competitionwineid=4  and c.wineclassid = w.wineclassid group by s.shelvewineid, w.winename order by c.varietalid ,Score DESC, Deviation DESC"
+		   },
+		   {"method": "select",		"name": "Scores1",		"id": "showScores1", 		"description": "Show scores by date 1",	
+		    "select": "SELECT max(s.dateentered) Date,s.shelvewineid ShelfID,w.winename,count(*) Sc#,sum(s.score) Sum,sum(s.score)/count(*) Ave,format(stddev(s.score),2) Deviation FROM wp_winescore s, wp_shelvewine r, wp_competitionwine w WHERE r.shelvewineid = s.shelvewineid and r.competitionwineid = w.competitionwineid and w.competitionid = 4 group by s.shelvewineid, w.winename order by w.wineclassid, Deviation"
+		   }
+	           ],
+	"Stickers":[
+		   {"method": "select",         "name": "Sticker orders",        "id": "stickerorders", 	"description": ": Show sticker orders for 2020",
+                    "select": "SELECT w.wineryname, orderdate, orderstatus, ordertotal FROM wp_stickerorder s, wp_winery w WHERE w.wineryid = s.wineryid and (orderdate >= NOW() - INTERVAL 100 DAY or orderstatus != 'DONE')"
+                   }
+	           ],
+	"more features": [
+			{"method": "select",			"name": "All Competition Producers",	"id": "allCompProd",
+			    "description": "Show all competition producers",
+			    "select" : 	"SELECT f.wineryname, f.contactsurname, f.email, count(*) entries, f.country FROM wp_winery f, wp_competitionwine w WHERE w.wineryid = f.wineryid AND w.competitionid = 4 GROUP BY w.wineryid, f.wineryname, f.contactsurname, f.email, f.country ORDER BY 5,1"
+			},
+			{"method": "select",			"name": "Duplicate Producers",	"id": "dupWineries",
+			    "description": "Show more than one producer with same email",
+			    "select" : "select wineryname, email, contactnumber from wp_winery where email in (select email from wp_winery group by email having count(*) > 1) order by 2,1"
+			}
+	],
+	"ad hoc 1": [
+			{"method": "select",			"name": "Entries by Type",	"id": "entryTypes",
+			    "description": "Show entries by winetype",
+			    "select" : "select t.winetypeid, count(*), t.winetype, v.varietaldesc from wp_competitionwine w , wp_wineclass c , wp_varietal v , wp_winetype t where w.competitionid = 4 and c.wineclassid = w.wineclassid  and v.varietalid = c.varietalid  and v.winetypeid = t.winetypeid  group by t.winetypeid, t.winetype, v.varietaldesc order by 1"
+			},
+			{"method": "select",			"name": "winefarm list chrono",		"id": "chronoinsert",		
+			    "description": "Showing products and class in chronological way..",
+			    "select": "select winesubclass, wineryname, winename from wp_winery f, wp_competitionwine w, wp_wineclass c where f.wineryid = w.wineryid and w.wineclassid =  c.wineclassid and w.competitionid = 4 order by competitionwineid desc;"
+			},
+			{"method": "select",			"name": "Entry creation dates",		"id": "entrydates",		
+			    "description": "Show date when entries was created..",
+			    "select" : "select datefilledin, count(*) from wp_competitionwine where competitionid = 4 group by datefilledin"
+			},
+			{"method": "chart",			"name": "Logins by Day",	"id": "shwLogbDay",
+			    "description": " : Show logins","xAxis":"day","yAxis":"logins","seriesName":"Logins by Day",
+			    "select" : "select date_format(log_dte,'%m-%d') day, count(*) logins from wp_log where function like '%login%' and log_dte > NOW() - INTERVAL 70 DAY group by date_format(log_dte,'%m-%d')"
+		    },
+    		{"method" : "prompt" , "question" : "What is wine number?", "name" : "fetch submit form", "id":"submitfrm",
+    		    "description" : "get a pdf"
+    		},
+    		{"method": "select",			"name": "Origin Distribution",		"id": "origindistr",		
+    		    "description": "Show wine.spirit Origins",
+    		    "select" : "SELECT countryname, originname, count(*) FROM wp_origin o, wp_competitionwine w, wp_country c WHERE o.originid = w.origin and w.competitionid = 4 and c.countrycode = o.countrycode group by countryname DESC, originname"
+    		},
+			{"method": "program",		"name": "Norris Jokes",		"id": "jokesies",
+			    "description": "Another tip if you hover",		"program": "getJoke()"
+			}
+	],
+	"Entry Stats": [
+		{"method": "select",			"name": "Open Entries",	"id": "openentries",
+			"description": " : Show open entries in current competition",
+			"select" : "SELECT entrystatus, a.wineryid, b.wineryid, wineryname, tradingname, a.competitionwineid, a.winename, contactname, contactsurname, email FROM wp_competitionwine a, wp_winery b WHERE a.competitionid = 4 AND a.entrystatus = 'OPEN' AND a.wineryid = b.wineryid"
+		},
+		/*
+		{"method": "chart",			"name": "Entries by Day",	"id": "shwEntriesbDay",
+			"description": "Show Entries","xAxis":"day","yAxis":"entries","seriesName":"Entries by Day",
+			"select" : "select date_format(datefilledin,'%m-%d') day, count(*) entries from wp_competitionwine where datefilledin between  '2020-06-01' and datefilledin > NOW() - INTERVAL 70 DAY group by datefilledin(log_dte,'%m-%d')"
+		},
+		*/
+		{"method": "chart",			"name": "Entries by day 2019",	"id": "shwEntriesDay2019",
+			"description": " : Show Entries","xAxis":"dayyear","yAxis":"entries","seriesName":"Entries by Day 2019",
+		    "select" : "(select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) entries from wp_competitionwine where competitionid = 3 and datefilledin < now() - interval 365 day group by dayyear) UNION (select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) entries from wp_otherwine where competitionid = 3 and datefilledin < now() - interval 365 day group by dayyear)"
+		},	
+		{"method": "chart",			"name": "Entries by day 2020",	"id": "shwEntriesDay2020",
+			"description": " : Show Entries","xAxis":"dayyear","yAxis":"wines","seriesName":"Entries by Day 2020",
+			"select" : "select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) wines from wp_competitionwine where competitionid = 4 group by dayyear"
+		},
+		{"method": "select",			"name": "Total entries 2019",		"id": "totalEntries2019",		
+			"description": " : Show sum of entries for 2019 up to TODAY",
+			"select" : "select sum(wines) TotalEntries FROM ((select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) wines from wp_competitionwine where competitionid = 3 and datefilledin < now() - interval 365 day group by dayyear) UNION (select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) wines from wp_otherwine where competitionid = 3 and datefilledin < now() - interval 365 day group by dayyear)) src"
+		},
+		{"method": "select",			"name": "Total entries 2020",		"id": "totalEntries2020",		
+			"description": " : Show sum of entries for 2020 up to TODAY",
+			"select" : "select sum(wines) TotalEntries FROM ((select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) wines from wp_competitionwine where competitionid = 4 and datefilledin < now() group by dayyear) UNION (select date_format(datefilledin,'%Y-%m-%d') dayyear, count(*) wines from wp_otherwine where competitionid = 4 and datefilledin < now() group by dayyear)) src"
+		}
+	],
+	"Producers": [
+		{"method": "select",			"name": "Producers 2019",	"id": "producers2019",
+			"description": " : Show Producers that entered the 2019 competition",
+			"select": "SELECT DISTINCT c.wineryname, c.tradingname, c.contactname, c.contactsurname, c.email, c.contactnumber FROM wp_competitionwine a, wp_otherwine b, wp_winery c WHERE a.competitionid = 3 and b.competitionid = 3 AND a.wineryid = b.wineryid AND b.wineryid = c.wineryid GROUP BY a.wineryid, b.wineryid, c.wineryid"
+		},
+        {"method": "select",			"name": "Producers 2018",	"id": "producers2018",
+			"description": " : Show Producers that entered the 2018 competition",
+			"select": "SELECT DISTINCT c.wineryname, c.tradingname, c.contactname, c.contactsurname, c.email, c.contactnumber FROM wp_competitionwine a, wp_otherwine b, wp_winery c WHERE a.competitionid = 2 and b.competitionid = 2 AND a.wineryid = b.wineryid AND b.wineryid = c.wineryid GROUP BY a.wineryid, b.wineryid, c.wineryid"
+		},
+		{"method": "select",			"name": "Producers not entered",		"id": "producersnotentered",		
+		"description": " : List of Producers not yet entered",
+		"select" : "select concat(w.wineryname,' (', w.wineryid, ')') producer, competition, sum(dt.entrycnt) entries, name, surname, epos from wp_winery w , (select w.wineryid, contactname name, contactsurname surname, email epos, 2021 - competitionid competition, count(competitionwineid) entrycnt from wp_winery w left join wp_competitionwine c on c.wineryid = w.wineryid group by wineryid, competition) dt where w.wineryid = dt.wineryid group by producer, competition, name, surname, epos"
+		},
+		{"method": "select",		"name": "Latest Submissions"	,"id": "showSubmissions",		
+		    "description": "Show which products has been submitted",		
+		    "select": "SELECT competitionwineid, winename ,entrystatus FROM wp_competitionwine where competitionid = 4 order by competitionwineid DESC"
+		}
+	],
+	"links": [
+		    {"method": "href",			"name": "Classes",			"id":"shwClasses",
+		        "href": "https://maiwsa.co.za/zml/test/QuickClasses.php"
+		    },
+		    {"method": "href",			"name": "Entry",			"id":"goEntry",
+		        "href": "https://maiwsa.co.za/entry"
+		    }
+	],
+	"System Info": [
+			{"method": "select",			"name": "Show Log",		"id": "showLog",
+			    "description": "Show activity for last 5 days",	
+			    "select": "SELECT substr(user,1,25) user, function, max(log_dte) log_dte FROM wp_log WHERE user != \"\" and function != \"LOGIN\" and log_dte >= NOW() - INTERVAL 5 DAY group by user,function order by log_dte DESC"
+			},
+			{"method": "select",			"name": "IP Address",	"id": "ipAddies",
+			    "description": "Show IP's of people using the system",
+			    "select" : "select min(date_format(log_dte,'%Y %m-%d')) min_log_dte, max(date_format(log_dte,'%Y-%m-%d')) max_log_dte, count(*) hits, ip ipaddress from wp_log group by ip order by max_log_dte DESC"
+			},
+			{"method": "txtFile",			"name": "error_log",		"id": "showErrorLog",		
+			    "description": "Show error_log file under entry",			"txtFile": "entry/error_log"
+			},
+			{"method": "select",			"name": "Who is using Dashboard",		"id": "dashusers",		
+			    "description": "Show who access the Dashboard",
+			    "select" : "select ip, function, min(log_dte), max(log_dte), count(*) Logs from wp_log where function like '%dash%' group by ip, function  order by 2,4 DESC;"	
+			}
+	]
+}
