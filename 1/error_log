@@ -1,0 +1,14 @@
+[17-May-2021 21:52:05 Africa/Johannesburg] PHP Fatal error:  Uncaught Error: Call to undefined function get_site_url() in /home/rbexbesy/public_html/maiwsa_2021/2020-winners.php:45
+Stack trace:
+#0 /home/rbexbesy/public_html/maiwsa_2021/loader.php(126): include()
+#1 /home/rbexbesy/public_html/maiwsa_2021/loader.php(30): myLaaiDataDinge(Array)
+#2 /home/rbexbesy/public_html/maiwsa_2021/loader.php(15): handleRequest(Array)
+#3 {main}
+  thrown in /home/rbexbesy/public_html/maiwsa_2021/2020-winners.php on line 45
+[18-May-2021 06:56:13 Africa/Johannesburg] PHP Fatal error:  Uncaught Error: Call to undefined function get_site_url() in /home/rbexbesy/public_html/maiwsa_2021/2020-winners.php:45
+Stack trace:
+#0 /home/rbexbesy/public_html/maiwsa_2021/loader.php(126): include()
+#1 /home/rbexbesy/public_html/maiwsa_2021/loader.php(30): myLaaiDataDinge(Array)
+#2 /home/rbexbesy/public_html/maiwsa_2021/loader.php(15): handleRequest(Array)
+#3 {main}
+  thrown in /home/rbexbesy/public_html/maiwsa_2021/2020-winners.php on line 45

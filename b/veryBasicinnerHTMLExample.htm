@@ -1,0 +1,34 @@
+<html>
+
+<body>
+
+<div id=part1>
+some header stuff
+<ul>
+<li><button onclick="loader('home')"> Home </button>
+<li><button onclick="loader('contact')"> Contact </button>
+</ul>
+</div>
+
+<div id=part2>
+<h1> Part 1 </h1>
+</div>
+
+<div id=part3>
+<h1> Part 2 </h1>
+some footer stuff
+</div>
+
+<script>
+function loader(whereTo) {
+ let laaiDitHier = document.getElementById('part2');
+ switch (whereTo) {
+ case 'home':  
+      laaiDitHier.innerHTML = "sfsdfsdfsdf";
+      break;
+ case 'contact':  
+      laaiDitHier.innerHTML = "cccccccc  sfsdfsdfsdf";
+      break;
+ }
+}
+</script>

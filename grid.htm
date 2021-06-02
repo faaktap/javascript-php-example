@@ -14,8 +14,7 @@ body {
 
 .buitekant {
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 1fr 5fr;
+  grid-template-columns: 1fr 5fr;
   gap: 2px 2px;
 }
 .binnekant {
@@ -30,19 +29,37 @@ body {
 .w { background-color: white; min-width:100px}
 .br { background-color: brown; min-width:100px}
 .p { background-color: pink; min-width:100px}
+.y { background-color: yellow; min-width:100px}
 .c1 { background-color: #581B45; min-width:100px}
 .c2 { background-color: #900C3F; min-width:100px}
 .c3 { background-color: #C70039; min-width:100px}
 .c4 { background-color: #FF5733; min-width:100px}
 .c5 { background-color: #FFC30F; min-width:100px}
 .c6 { background-color: #FFEEAD; min-width:100px}
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 20px;
+}
+.col-xs-12 {  grid-column: span 12}
+.col-xs-6 {  grid-column: span 6}
 </style>
 <body class="p">
+<div class="row">
+ <div class="col-xs-12 y">This is a col (col-xs-12)</div>
+ <div class="col-xs-6 w">This is a col (col-xs-6) </div>
+ <div class="col-xs-6 r">This is a col (col-xs-6) </div>
+</div>
+
 <div id="buite" class="buitekant">
-<div class="p"> linksbo </div>
-<div class="p"> regsbo </div>
-<div class="p"> regskant </div>
+<div class="c1"> linksbo<br>.<br>. </div>
+<div class="c2"> regsbo </div>
+<div class="c3"> regskant </div>
 <div class="binnekant" id="binne">
+<div class="row">
+ this is a row
+ <div class="col-xs-12">This is a col </div>
+</div>
 <div id=play class="r"> 1 </div>
 <div id=play1 class="bl"> 2 </div>
 <div class="br"> 3 </div>

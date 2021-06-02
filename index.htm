@@ -1,5 +1,16 @@
 <html>
+<head>
+<style>
+.cred {background-color:red};
+body {
+  margin: 10px;
+}
+.sidebar { grid-area: sidebar; }
+.content { grid-area: content; }
+.header  { grid-area: header;}
+.footer  { grid-area: footer;}
 
+<<<<<<< HEAD
 <body onload="loader('documentation')">
 
 <div id=part1>
@@ -23,12 +34,70 @@ some header stuff
 <div id=part2>
 <h1> Part 1 </h1>
 </div>
+=======
 
-<div id=part3>
-<h1> Part 2 </h1>
-some footer stuff
+.wrapper {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 20% 10% 70%;
+    grid-template-areas:
+    "....... header header"
+    "sidebar content content"
+    "footer  footer  footer";
+    background-color: #fff;
+    color: #444;
+}
+
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 100%;
+}
+.header,
+.footer {
+  background-color: #999;
+}
+</style>
+>>>>>>> 256998d... grid en verfraai
+
+<link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container fluid">
+<div class="row">
+<div class="col">
+<div class="wrapper">
+  <div class="box header text-center">Header</div>
+  <div class="box sidebar">
+ <ul class="cred">
+   <li><button class="btn-primary" onclick="loader('home')"> Home </button></li>
+   <li><button class="btn-secondary" onclick="loader('contact')"> Contact </button></li>
+   <li><button class="btn-success" onclick="loader('leesphp')"> LeesPhp </button></li>
+   <li><button onclick="loader('htmlees')"> htmlees </button></li>
+   <li><button onclick="loader('test')"> test htm read </button></li>
+   <li><button onclick="loader('notdeclaredyet')"> notdeclaredyet (error) </button></li>
+   <li><button onclick="loader('ip')"> get ip </button></li>
+   <li><button onclick="loader('somedata')"> get db data </button></li>
+  </ul>  
+  </div>
+  <div id="part2" class="box content">Content
+    <br /> More content than we had before so this column is now quite tall.
+    <br /> More content than we had before so this column is now quite tall.
+    <br /> More content than we had before so this column is now quite tall.
+    <br /> More content than we had before so this column is now quite tall.
+  </div>
+  <div class="box footer text-center">
+  Footer
+  </div>
+  </div>
+  </div>
+</div>
 </div>
 
+<hr>
+         
 <script>
 function loader(whereTo) {
  let laaiDitHier = document.getElementById('part2');
@@ -36,14 +105,14 @@ function loader(whereTo) {
 }
 
 function kryDitVanServer(stuffToLoad, placeToPutIt) {
-   const praatmetserver = {task:'laaiData', menuClick:stuffToLoad}
-   const hoeOnsDitWilTerugkry = {
+   const srvCommand = {task:'laaiData', menuClick:stuffToLoad}
+   const options = {
           method: 'POST'
          ,headers: {'Accept': 'application/json'
                    ,'Content-Type': 'application/json;charset=UTF-8'}
-         ,body: JSON.stringify(praatmetserver) }
-   placeToPutIt.innerHTML = '<h4> ................   loading ...................</h4>';
-   fetch('./loader.php', hoeOnsDitWilTerugkry)
+         ,body: JSON.stringify(srvCommand) }
+   placeToPutIt.innerHTML = '<h4> ................   loading ...................</h4> <p>hang on a moment...</p>';
+   fetch('./loader.php', options)
    .then(response => {
      if (!response.ok) {   
         alert('some serious error')  
@@ -55,3 +124,5 @@ function kryDitVanServer(stuffToLoad, placeToPutIt) {
    })
 }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
