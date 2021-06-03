@@ -35,7 +35,8 @@ function myLaaiDataDinge($data) {
   //execute our instructions and return result.
   switch ($menuArr->type) {
   case 'menu' : 
-        $result = ['payload' =>  $menuObj ];
+        global $menuCommands;
+        $result = ['payload' =>  jsonToDebug($menuCommands) ];
         return $result;
   case 'text' : 
         $result = ['payload' =>  $menuArr->result ];
@@ -55,7 +56,7 @@ function myLaaiDataDinge($data) {
         return $result;        
   case 'data':
         $result['payload'] = "Here we will use a sql statement in result, and fetch stuff from database...eventually";
-        return $result;          
+        return $result;
   default: 
        $result = ['payload' => 'weet noggie wat nie? - kennie vir ' . $menuClick  . ' nie!'];
        return $result;
@@ -68,4 +69,35 @@ function myLaaiDataDinge($data) {
              ,'desc' => 'We fell thru our switch statement'];
   return $result;          
 }
+
+function jsonToDebug($jsonText = '')
+{
+    $arr = json_decode($jsonText, true);
+    $html = "";
+    if ($arr && is_array($arr)) {
+        $html .= _arrayToHtmlTableRecursive($arr);
+    }
+    return $html;
+}
+
+function _arrayToHtmlTableRecursive($arr) {
+    $str = "<table class='table text-reset'><tbody>";
+    foreach ($arr as $key => $val) {
+        $str .= "<tr>";
+        $str .= "<td>$key</td>";
+        $str .= "<td>";
+        if (is_array($val)) {
+            if (!empty($val)) {
+                $str .= _arrayToHtmlTableRecursive($val);
+            }
+        } else {
+            $str .= "<strong>$val</strong>";
+        }
+        $str .= "</td></tr>";
+    }
+    $str .= "</tbody></table>";
+
+    return $str;
+}
+
 ?>

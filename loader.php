@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
   exit;
 }
-require ("server-myLaaiDataDinge.php");
+require ("server.php");
 $JSON = json_decode(file_get_contents('php://input'), true);
 
   
@@ -15,7 +15,7 @@ $JSON = json_decode(file_get_contents('php://input'), true);
 $menuCommands = '[{"name": "menus"
    ,"version": "v1.0"
    ,"documentation"      : { "type" : "htm"  , "result" : "testForPierre.htm"}   
-   ,"menu"     		 : { "type" : "menu" , "result" : "menu1"}   
+   ,"menu"     		     : { "type" : "menu" , "result" : "table"}   
    ,"home"               : { "type" : "text" , "result" : "<h1>Home</h1> Information we display for home"}
    ,"contact"            : { "type" : "text" , "result" : "<h2>Contact</h2> Information we display for contact"}
    ,"leesphp"            : { "type" : "php"  , "result" : "testrun.php"}
@@ -24,6 +24,7 @@ $menuCommands = '[{"name": "menus"
    ,"hallo"              : { "type" : "text" , "result" : "Nog bietjie <h2>text</h2> soos hallo world"}
    ,"ip"                 : { "type" : "ip"   , "result" : "Get the users IPAddress"}
    ,"somedata"           : { "type" : "data" , "result" : "select * from "}
+   ,"badtype"            : { "type" : "xxx"  , "result" : "this type does not exist. should give an error"}
 }]';
 //Here we decode the json as a php object, to be used like $menuObj->name etc..
 $menuObj = json_decode($menuCommands);   //force an object
